@@ -1,118 +1,66 @@
-```markdown
-# **Budget Model App**  
+# Application Budget Model
 
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/0d5d8c2bd2964861ac67dcf2a5e62f22)](https://www.codacy.com/manual/SharonChoong/budget-model?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=sharonchoong/budget-model&amp;utm_campaign=Badge_Grade)
+Une simple application de bureau Windows en WPF qui suit le budget mensuel des dépenses et des revenus, le patrimoine net et les investissements financiers sur l’ensemble des comptes bancaires et de courtage. Toutes les données sont locales.
 
-## **Présentation**  
-**Budget Model App** est une application de bureau pour Windows, développée en **WPF**. Elle permet de **suivre un budget mensuel**, d’analyser la **valeur nette** et de gérer les **investissements financiers** sur différents comptes bancaires et de courtage.  
-📌 **Toutes les données sont stockées localement**, garantissant sécurité et confidentialité.
+- Plus puissant et évolutif que de créer et maintenir une feuille de calcul  
+- Possibilité de programmer l’application pour lire n’importe quel format de relevé ou rapport bancaire et afficher toutes les analyses souhaitées  
+- Les mots de passe bancaires ne sont pas enregistrés et restent privés  
 
-### **Pourquoi utiliser Budget Model App ?**
-✅ Plus **puissant et évolutif** qu’un simple fichier Excel.  
-✅ Permet de **lire et analyser n’importe quel relevé bancaire**.  
-✅ **Aucun mot de passe bancaire n’est enregistré** (contrairement à Mint, Quicken ou QuickBooks).  
+Contrairement aux solutions de finance personnelle comme Mint, Quicken et Quickbooks, il n’y a aucun lien ou synchronisation automatique avec les comptes, donc les mots de passe et identifiants bancaires ne sont jamais confiés à des entreprises ni sauvegardés dans une base de données.
 
-L’application ne **synchronise pas automatiquement les comptes bancaires**, ce qui **évite tout risque lié au stockage des identifiants bancaires**.
+## Fonctionnalités
+1. Vue mensuelle des revenus et dépenses catégorisés  
+2. Possibilité de modifier les éléments automatiquement catégorisés (par exemple, une dépense d’essence classée dans « Déplacements » peut être reclassée dans « Voyage » pour refléter un voyage ponctuel)  
+3. Historique des dépenses, revenus et économies mensuels dans des graphiques récapitulatifs  
+4. Évolution du patrimoine net dans le temps  
+5. Gains/pertes d’investissement mois par mois et de manière cumulative  
+6. Analyse des investissements dans le temps, par titre ou par classe d’actifs  
+7. Historique des achats et ventes d’actions/fonds (comparaison du prix exécuté par rapport au prix de marché nécessitant un compte Alpha Vantage)  
 
----
+## Démarrage rapide : Prévisualiser les fonctionnalités avec des données d’exemple
+Exécutez l’application **Budget Model.exe** dans le dossier **Budget Model\bin\Debug\**. L’application affichera d’abord l’écran **Budget Statement**, avec des données d’exemple déjà catégorisées. Utilisez les boutons en haut à droite pour naviguer vers les autres écrans, y compris l’écran **Analyse historique du budget et du patrimoine net** et l’écran **Investissements**.
 
-## **Fonctionnalités**
-1. 📊 **Vue mensuelle** des revenus et dépenses classés par catégorie.  
-2. 🏷 **Possibilité de modifier les catégories** des transactions.  
-3. 📈 **Historique des dépenses, revenus et économies sous forme de graphiques**.  
-4. 📊 **Suivi de la valeur nette et de son évolution dans le temps**.  
-5. 💹 **Analyse des investissements** (gains/pertes, catégories d’actifs, titres spécifiques).  
-6. 🏦 **Gestion des transactions boursières**, avec comparaison des prix d’achat/vente (nécessite **Alpha Vantage API**).  
+![Écran d’analyse des investissements](/images/demo.gif)
 
----
+Les données d’exemple chargées dans l’application se trouvent dans le dossier **\test_data**. L’écran **Données & Définitions** est l’endroit où les relevés bancaires et rapports de courtage peuvent être téléchargés, et où les catégories peuvent être définies pour les achats ou revenus apparaissant dans les relevés. La catégorisation repose sur la correspondance de mots-clés, qui attribue automatiquement la même catégorie à tous les éléments de relevé ayant la même série de mots dans leur description.
 
-## **🎬 Démarrage rapide : Tester l'application avec des données d'exemple**
-1. **Exécutez** `Budget Model.exe` dans le dossier `Budget Model\bin\Debug\`.  
-2. L’écran **Budget Statement** s'affichera avec des données **déjà catégorisées**.  
-3. Naviguez entre les différentes sections :  
-   - 📊 **Historical Budget and Net Worth Analysis** *(Analyse budgétaire historique et valeur nette)*  
-   - 💹 **Investments** *(Investissements)*  
+**Écran Données & Définitions**  
+![Écran Données & Définitions](/images/Categorizing%20transaction%20items%20in%20accounts.png)
 
-📁 **Les données d’exemple sont disponibles dans le dossier** `\test_data`.  
+## Démarrage rapide : Personnaliser
 
-![Investment Analysis screen](/images/demo.gif)
+Plusieurs éléments doivent être configurés pour une première utilisation.
 
----
+1. **FinancialInstitutions_Sample.cs dans le dossier Models**  
+   - La méthode *GetFinancialInstitutions* dans la classe *FinancialInstitution* retourne la liste des comptes bancaires et comptes de courtage que l’application analyse. Avant la première utilisation, cette liste doit être définie dans le code. Si la méthode n’est pas implémentée, la liste d’exemple trouvée dans la classe abstraite *BaseFinancialInstitution* dans le fichier *IFinancialInstitution.cs* sera utilisée, comprenant *BankSample* et *BrokerageSample*.  
 
-## **🔧 Personnalisation**
-Avant la première utilisation, certaines configurations doivent être **définies dans le code** :
+2. **Holders_Sample.cs dans le dossier Models**  
+   - La méthode *HolderCollection* dans la classe *Holder* doit être écrite pour lister les titulaires de comptes. Les foyers peuvent avoir plusieurs titulaires, et l’application permet d’afficher des analyses pour chaque titulaire, ainsi qu’au niveau agrégé du foyer nommé *"Home"*. Si la méthode n’est pas implémentée, la liste d’exemple trouvée dans la classe abstraite *BaseHolder* dans le fichier *IHolder.cs* sera utilisée, comprenant *Person1* et *Person2*.  
 
-### **1️⃣ Déclaration des institutions financières**
-📌 **Fichier** : `FinancialInstitutions_Sample.cs` (dossier `Models`)  
-🔹 La méthode `GetFinancialInstitutions` liste les **banques et comptes analysés** par l’application.  
-🔹 **Par défaut**, la liste d’exemple comprend `BankSample` et `BrokerageSample`.
+3. **ExcelImport_Sample.cs dans le dossier Helpers**  
+   - La classe *ExcelImport* implémente la méthode qui lit les fichiers CSV des relevés d’activité bancaire et des relevés de courtage. Pour extraire les transactions quotidiennes et les valeurs des actifs à partir des fichiers CSV, la classe doit être écrite pour lire les colonnes appropriées selon les différents formats de relevés. Elle utilise la librairie CsvHelper.
 
-### **2️⃣ Définition des titulaires de comptes**
-📌 **Fichier** : `Holders_Sample.cs` (dossier `Models`)  
-🔹 La méthode `HolderCollection` doit être **modifiée pour lister les titulaires de comptes**.  
-🔹 Un foyer peut avoir plusieurs titulaires (ex. un couple) et l’application permet **une analyse détaillée par personne ou pour l’ensemble du foyer**.
+   **Particularités des données :**  
+   - **Salaire brut** :  
+     - Le salaire brut n’apparaît généralement pas sur les relevés bancaires — seul le salaire net apparaît comme un flux entrant. Cependant, le salaire brut peut être spécifié manuellement dans la fenêtre **Données & Définitions**. Une fois défini, le montant sera automatiquement reporté au mois suivant, mais peut être modifié manuellement (par exemple en cas d’augmentation de salaire).
+   - **Solde initial** :  
+     - L’application calcule le solde de vos comptes bancaires en effectuant une somme cumulative de toutes les transactions. Pour afficher des soldes précis, l’historique complet des transactions doit être disponible. Si seul un historique limité est chargé, le solde initial juste avant la première transaction doit être indiqué comme une « transaction » initiale séparée.
 
-### **3️⃣ Importation de relevés bancaires**
-📌 **Fichier** : `ExcelImport_Sample.cs` (dossier `Helpers`)  
-🔹 Permet de **lire les fichiers CSV** des relevés bancaires.  
-🔹 Doit être **configuré selon le format des fichiers** fournis par la banque.  
+### Autres fichiers à modifier
 
----
+Les fichiers suivants peuvent être personnalisés.
 
-## **📂 Gestion des données et particularités**
-### **📝 Salaire brut**
-💡 Les relevés bancaires **indiquent généralement uniquement le salaire net**.  
-📌 Une option permet **d’indiquer manuellement le salaire brut** dans **Data & Definitions**.
+1. **Fichiers de configuration**  
+   - **Connections.config**  
+     - Ce fichier contient la chaîne de connexion vers la base de données où toutes les données seront enregistrées. Par défaut, il pointe vers la base de données SQLite *BudgetData_Sample.db* dans le dossier *App_Data*.  
+   - **CustomAppSettings.config**  
+     - Ce fichier contient les clés API ou mots de passe utilisés pour intégrer les API de prix des actions et des rendements obligataires afin de suivre la performance des investissements. L’API gratuite [Alpha Vantage](https://www.alphavantage.co/) est utilisée ici pour afficher les prix des actions/ETF dans l’écran **Investissements**. Une clé API est fournie lors de l’inscription sur le site et doit être spécifiée dans *CustomAppSettings.config* comme suit :  
+     `<appSettings><add key="alphav_key" value="[clé API]"/></appSettings>`  
+     Lorsque vous ajoutez des fichiers de configuration, veillez à ce qu’ils soient copiés dans le répertoire de sortie lors de la compilation.  
 
-### **💰 Solde initial des comptes**
-📌 Pour éviter toute incohérence, il faut **ajouter manuellement le solde initial** si l’historique des transactions est incomplet.
+2. **La base de données - SQLite**  
+   - À titre d’exemple, l’application utilise actuellement la base de données *BudgetData_Sample.db*. Dans cette base, les tables *Categories* et *InvestmentCategories* stockent la liste des catégories utilisées. Toutes les autres tables sont alimentées par les données saisies par l’utilisateur. SQLite est utilisé car il est léger et adapté au stockage local.
 
----
-
-## **📁 Autres fichiers à configurer**
-1. **🔧 Fichiers de configuration**  
-   - 📌 `Connections.config` : gère la connexion à la base de données SQLite.  
-   - 🔑 `CustomAppSettings.config` : contient les **clés API** pour **récupérer les prix des actions via Alpha Vantage**.
-
-2. **📊 Base de données (SQLite)**  
-   - L’application utilise une base de données **SQLite** (`BudgetData_Sample.db`).  
-   - 📌 Les catégories de dépenses et d’investissement sont stockées dans `Categories` et `InvestmentCategories`.
-
----
-
-## **📊 Analyse et calculs financiers**
-### **💹 Calcul des gains/pertes en pourcentage dans l’onglet Investments**
-📌 **Formule utilisée** :
-\[
-\text{Performance mensuelle} = \frac{\text{Variation de la valeur de l’investissement}}{\text{Valeur des actifs du mois précédent}}
-\]
-💡 **Les liquidités bancaires sont prises en compte**, mais pas la distinction entre fonds d’investissement et épargne de précaution.
-
----
-
-## **📜 Licence**
-Ce projet est sous **licence GNU AGPLv3**.  
-Toute modification ou réutilisation du code **doit être publiée en open-source sous la même licence**.
-
----
-
-## **🛠 Améliorations possibles**
-- [ ] 🔄 **Plus de flexibilité dans la gestion des catégories.**  
-- [ ] 🎛 **Interface pour configurer les banques et les comptes (actuellement en code).**  
-- [ ] 📂 **Ajout d’une interface pour définir les formats de relevés bancaires.**  
-- [ ] 📊 **Intégration des comptes de retraite dans l’analyse financière.**  
-
----
-
-## **📞 Contact**
-🔗 [Mon site GitHub Pages](https://sharonchoong.github.io/)  
-
----
-
-## **📸 Interface : Écran Data & Definitions**
-Cet écran permet de :  
-- 📂 **Charger des relevés bancaires**  
-- 🏷 **Définir des catégories** pour classifier les transactions **par mots-clés**  
-
-![Data & Definitions screen](/images/Categorizing%20transaction%20items%20in%20accounts.png)
-```
+## Autres points notables
+- Une remarque sur le calcul des pourcentages de gain/perte dans *Investissements* :  
+   - Le pourcentage mensuel de gain/perte sur les investissements est calculé par la variation de la valeur de l’investissement divisée par la valeur totale des actifs à la fin du mois précédent, y compris les dépôts bancaires. Cette méthode prend en compte le coût d’opportunité de la détention de liquidités, même si elle ne considère pas l’argent qui n’est jamais destiné à être investi (comme un fonds d’urgence).
